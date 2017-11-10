@@ -1,3 +1,7 @@
+BaseApp?
+-
+BaseApp is a simple application with implemented splash screen and multi menu navigation drawer.
+
 How to turn BaseApp into my App?
 -
 Just run repackage.sh on the project folder with your package name as parameter.
