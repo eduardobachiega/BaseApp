@@ -1,6 +1,7 @@
 package eduardobachiega.baseapp;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -51,7 +52,7 @@ public class MenuActivity extends AppCompatActivity
         fragmentTransaction(new InitialFragment());
 
         //CHANGE MENU ITEMS BY SOME CONDITION
-        if(false) { //REPLACE IF WITH SOME VALID CONDITION
+        if (false) { //REPLACE IF WITH SOME VALID CONDITION
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.menu_drawer1);
         } else {
@@ -103,7 +104,7 @@ public class MenuActivity extends AppCompatActivity
         Class fragmentClass = null;
         if (id == R.id.nav_camera) {
             fragmentClass = Fragment1.class;
-        } else if (id == R.id.nav_gallery){
+        } else if (id == R.id.nav_gallery) {
             fragmentClass = Fragment1.class;
         }
 
@@ -118,9 +119,29 @@ public class MenuActivity extends AppCompatActivity
     }
 
     public void fragmentTransaction(final Fragment fragment) {
-        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, fragment);
+                transaction.commit();
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         drawer.closeDrawer(GravityCompat.START);
     }
 
