@@ -49,7 +49,7 @@ public class MenuActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        fragmentTransaction(new InitialFragment());
+        fragmentTransaction(new InitialFragment(), true);
 
         //CHANGE MENU ITEMS BY SOME CONDITION
         if (false) { //REPLACE IF WITH SOME VALID CONDITION
@@ -114,11 +114,11 @@ public class MenuActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        fragmentTransaction(fragment);
+        fragmentTransaction(fragment, false);
         return true;
     }
 
-    public void fragmentTransaction(final Fragment fragment) {
+    public void fragmentTransaction(final Fragment fragment, boolean initial) {
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -135,6 +135,7 @@ public class MenuActivity extends AppCompatActivity
                 final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, fragment);
                 transaction.commit();
+                drawer.removeDrawerListener(this);
             }
 
             @Override
@@ -143,6 +144,11 @@ public class MenuActivity extends AppCompatActivity
             }
         });
         drawer.closeDrawer(GravityCompat.START);
+        if (initial) {
+            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container, fragment);
+            transaction.commit();
+        }
     }
 
     @Override
